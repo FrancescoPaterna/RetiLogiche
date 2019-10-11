@@ -49,7 +49,7 @@ type state_type is(
     CALC_MAN, -- Calcola la distanza Manhattan
     MASK_WRITER, -- Scrivi la maschera d'uscita
     DONE, -- Porta il segnale o_done a 1
-    DONE_WAIT -- Attende un segnale di start a 0, dopodichè porta Done a 0 e riporta la fsm allo stato iniziale
+    DONE_WAIT -- Attende un segnale di start a 0, dopodichÃ¨ porta Done a 0 e riporta la fsm allo stato iniziale
     );
     
 signal STATE, P_STATE : state_type; --Variabil che tengono traccia dei cambiamenti di stato
@@ -66,7 +66,7 @@ begin
     variable MI: std_logic_vector(7 downto 0); -- vettore per contenere le maschere di ingresso e uscita
     variable MO: std_logic_vector(7 downto 0); -- vettore per contenere la maschera d'uscita
     variable address : std_logic_vector(15 downto 0); --indirizzo generico per contenere un indirizzo 
-    variable Dmin : integer range 0 to 510;  --distanza manhattan del centroide più vicino
+    variable Dmin : integer range 0 to 510;  --distanza manhattan del centroide piÃ¹ vicino
     variable yi : integer range 0 to 510; --distanza manhattan centroide analizzato
     variable xi : integer range 0 to 255; -- distanze orizzontali e verticali centroide analizzato
     variable yo , xo : std_logic_vector(7 downto 0); -- coordinate x,y del centroide analizzato
@@ -94,7 +94,7 @@ begin
         STATE <= START;  -- Riporta la macchina allo stato inizile  
     
     
-    elsif(rising_edge(i_clk)) then -- Se è passato un ciclo di clock e sono sul fronte di salita
+    elsif(rising_edge(i_clk)) then -- Se Ã¨ passato un ciclo di clock e sono sul fronte di salita
         case state is           -- Definiamo gli stati
                  
             when START =>
@@ -160,7 +160,7 @@ begin
                 if(k = "00000000") then  -- Se ho verificato tutta la maschera d'ingresso
                     --report "MASCHERA OUTPUT : "& integer'image(to_integer(unsigned(MO)));
                     o_address <= x"0013"; -- Setto il puntatore all'indirizzo DEC(19), dove salvare la Maschera d'uscita
-                    o_data <= MO; -- Setto il segnale o_data con la mascherà d'uscita
+                    o_data <= MO; -- Setto il segnale o_data con la mascherÃ  d'uscita
                     STATE <= MASK_WRITER;
                     
                 elsif((MI and k) = k) then -- Se il centroide K considerato appartiene alla mia maschera d'ingresso
@@ -220,17 +220,17 @@ begin
                 yi := yi + xi;  -- Somma i termini trovati con CALC_XI e CALC_YI
                 --report "DISTANZA MANHATTAN CALCOLATA: "& integer'image(yi); 
 
-                if(yi > Dmin) then  -- Se il centroide non è il più vicino al punto da valutare
+                if(yi > Dmin) then  -- Se il centroide non Ã¨ il piÃ¹ vicino al punto da valutare
                  k := (k(6 downto 0) & '0'); -- Passiamo al nuovo centroide shiftando k a sinistra 
                     STATE <= SCALX;
 
-                elsif(yi = Dmin) then -- Se il centroide è contende il posto con un altro centroide di pari distanza
+                elsif(yi = Dmin) then -- Se il centroide Ã¨ contende il posto con un altro centroide di pari distanza
                     MO := (MO xor k); -- Facciamo uno XOR tra K e maschera d'uscita, per considerarli entrambi
                     k := (k(6 downto 0) & '0'); -- Passiamo al nuovo centroide shiftando k a sinistra
                     STATE <= SCALX;
-                elsif(yi < Dmin) then -- Se il centroide è il più vicino al punto da valutare
-                    MO := k; -- La maschera d'uscità sarà il centroide stesso
-                    Dmin := yi; -- Aggiorno la distanza più vicina al punto da valutare
+                elsif(yi < Dmin) then -- Se il centroide Ã¨ il piÃ¹ vicino al punto da valutare
+                    MO := k; -- La maschera d'uscitÃ  sarÃ  il centroide stesso
+                    Dmin := yi; -- Aggiorno la distanza piÃ¹ vicina al punto da valutare
                     k := (k(6 downto 0) & '0'); -- Passiamo al nuovo centroide shiftando k a sinistra
                     STATE <= SCALX;
                 end if;
