@@ -1,5 +1,7 @@
-# Prova Finale Di Reti Logiche [085877] - Politecnico Di Milano
-Prova finale di reti logiche, anno accademico 2018/2019.
+# Prova Finale Di Reti Logiche [085877] 
+
+
+Prova finale di reti logiche, Politecnico Di Milano, anno accademico 2018/2019.
 
 Linguaggio: VHDL 
 
